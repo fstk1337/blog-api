@@ -11,7 +11,10 @@ const pool = new Pool({
     database: process.env.PG_DB
 });
 
-const sql = fs.readFileSync('init.sql', 'utf8');
-pool.query(sql);
+const init = fs.readFileSync('init.sql', 'utf8');
+// pool.query(init);
+
+const data = fs.readFileSync('data.sql', 'utf8');
+// pool.query(data);
 
 module.exports = pool;
