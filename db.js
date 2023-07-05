@@ -12,9 +12,6 @@ const pool = new Pool({
 });
 
 const init = fs.readFileSync('init.sql', 'utf8');
-// pool.query(init);
-
-const data = fs.readFileSync('data.sql', 'utf8');
-// pool.query(data);
+pool.query(init);
 
 module.exports = pool;
