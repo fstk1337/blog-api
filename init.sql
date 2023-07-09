@@ -48,3 +48,11 @@ VALUES(
   CURRENT_TIMESTAMP,
   'So good news to see your first POST!'
 );
+
+INSERT INTO comments(user_id, post_id, date, text)
+VALUES(
+  (SELECT id FROM users WHERE nickname = 'fstk1337'),
+  (SELECT id FROM posts WHERE title = 'The very first post.'),
+  CURRENT_TIMESTAMP,
+  'You are not so good indeed. Just try more.'
+);
