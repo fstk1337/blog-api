@@ -10,19 +10,63 @@ class PostController {
 
   async getPosts(req, res) {
     const id = req.query.userId;
+    const users = (await db.query('SELECT * FROM users')).rows;
     let posts;
     if (id) {
-      posts = await db.query(`SELECT * FROM posts WHERE user_id = $1`, [id]);
+      let user = users.find(user => user.id === Number(id));
+      posts = (await db.query(`SELECT * FROM posts WHERE user_id = $1`, [id])).rows;
+      posts = posts.map(post => {
+        return {
+          id: post.id,
+          title: post.title,
+          date: post.date,
+          content: post.content,
+          user: {
+            email: user.email,
+            nickname: user.nickname,
+            first_name: user.first_name,
+            last_name: user.last_name
+          }
+        };
+      });
     } else {
-      posts = await db.query('SELECT * FROM posts');
+      posts = (await db.query('SELECT * FROM posts')).rows;
+      posts = posts.map(post => {
+        let user = users.find(user => user.id === post.user_id);
+        return {
+          id: post.id,
+          title: post.title,
+          date: post.date,
+          content: post.content,
+          user: {
+            email: user.email,
+            nickname: user.nickname,
+            first_name: user.first_name,
+            last_name: user.last_name
+          }
+        };
+      });
     }
-    res.json(posts.rows);
+    res.json(posts);
   }
 
 	async getOnePost(req, res) {
 		const id = req.params.id;
-		const post = await db.query('SELECT * FROM posts WHERE id = $1', [id]);
-		res.json(post.rows[0]);
+		let post = (await db.query('SELECT * FROM posts WHERE id = $1', [id])).rows[0];
+    let user = (await db.query('SELECT * FROM users WHERE id = $1', [post.user_id])).rows[0];
+    post = {
+      title: post.title,
+      date: post.date,
+      content: post.content,
+      user: {
+        id: user.id,
+        email: user.email,
+        nickname: user.nickname,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    };
+		res.json(post);
 	}
 
   async updatePost(req, res) {

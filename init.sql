@@ -56,3 +56,11 @@ VALUES(
   CURRENT_TIMESTAMP,
   'You are not so good indeed. Just try more.'
 );
+
+INSERT INTO comments(user_id, post_id, date, text)
+VALUES(
+  (SELECT id FROM users WHERE nickname = 'fstk1337'),
+  (SELECT id FROM posts WHERE title = 'Yet another beautiful post.'),
+  CURRENT_TIMESTAMP,
+  'Help me to get into your thought, please.'
+);
