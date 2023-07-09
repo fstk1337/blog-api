@@ -6,6 +6,7 @@ CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    is_admin BOOLEAN NOT NULL,
     nickname VARCHAR(255) UNIQUE,
     first_name VARCHAR(255),
     last_name VARCHAR(255)
@@ -30,8 +31,8 @@ CREATE TABLE comments(
     FOREIGN KEY (post_id) REFERENCES posts(id)
 );
 
-INSERT INTO users(email, password, nickname, first_name, last_name)
-VALUES('vit.shvaichuk@gmail.com', '$2y$12$AN0LBoWXbn1q7cqvwb.Du.fbOEJMdpaopvWYFDYmCwB7SQsIQAaR2', 'fstk1337', 'Vitali', 'Shvaichuk');
+INSERT INTO users(email, password, is_admin, nickname, first_name, last_name)
+VALUES('vit.shvaichuk@gmail.com', '$2y$12$AN0LBoWXbn1q7cqvwb.Du.fbOEJMdpaopvWYFDYmCwB7SQsIQAaR2', TRUE, 'fstk1337', 'Vitali', 'Shvaichuk');
 
 INSERT INTO posts(title, date, content, user_id)
 VALUES('The very first post.', CURRENT_TIMESTAMP, 'I wrote this just to check it out. Please believe.',
