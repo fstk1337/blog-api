@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 const authRouter = require('./routes/auth.routes');
 const userRouter = require('./routes/user.routes');
@@ -15,7 +16,26 @@ app.use(cors({
   origin: 'http://localhost:5173'
 }));
 
-app.use('/api/auth', authRouter);
+app.use('/auth', authRouter);
+
+app.use('/api', function(req, res, next) {
+  if (!req.headers.authorization) {
+    return res.status(403).json({
+      success: false,
+      message: 'Auth token was not provided.'
+    });
+  }
+  const token = req.headers.authorization.split(' ')[1];
+  jwt.verify(token, process.env.JWT_SECRET, function(err) {
+    if (err) {
+      return res.status(401).json({
+        error: err,
+        message: 'Authentication failed'
+      })
+    }
+    next();
+  });
+});
 app.use('/api', userRouter);
 app.use('/api', postRouter);
 app.use('/api', commentRouter);
