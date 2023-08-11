@@ -32,7 +32,7 @@ CREATE TABLE comments(
 );
 
 INSERT INTO users(email, password, is_admin, nickname, first_name, last_name)
-VALUES('vit.shvaichuk@gmail.com', '$2y$12$AN0LBoWXbn1q7cqvwb.Du.fbOEJMdpaopvWYFDYmCwB7SQsIQAaR2', TRUE, 'fstk1337', 'Vitali', 'Shvaichuk');
+VALUES('vit.shvaichuk@gmail.com', '$2b$12$38UTkvXAuPbr1Cm27Fd7cexGUFNmTeXzuqvslp3vQM54KwrbX4PtO', TRUE, 'fstk1337', 'Vitali', 'Shvaichuk');
 
 INSERT INTO posts(title, date, content, user_id)
 VALUES('The very first post.', CURRENT_TIMESTAMP, 'I wrote this just to check it out. Please believe.',
