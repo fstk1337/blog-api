@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
@@ -10,6 +11,16 @@ const commentRouter = require('./routes/comment.routes');
 const PORT = process.env.PORT || 8000;
 
 const app = express();
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../default/webapps', 'index.html'));
+});
+
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, '../default/webapps', 'favicon.ico'));
+});
+
+app.use('/assets', express.static(path.join(__dirname, '../default/webapps/assets')));
 
 app.use(express.json());
 app.use(cors({
